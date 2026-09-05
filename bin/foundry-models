@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# Print the models actually deployed on the Foundry resources, so you can tell
+# a real model name from one the CLIs will only reject at request time.
+#
+# Reads AZURE_OPENAI_FOUNDRY_RESOURCE / AZURE_OPENAI_API_KEY and
+# ANTHROPIC_FOUNDRY_RESOURCE / ANTHROPIC_FOUNDRY_API_KEY. Each endpoint is
+# shown with the client currently assigned to it.
+#
+# Note this deliberately does not use /openai/v1/models: that returns the whole
+# Azure catalogue of ~400 names regardless of what the resource can serve.
+# Deployments are only exposed on the legacy api-version below; the current
+# ones 404.
+#
+# Arguments:
+#  1. Pattern to filter model names by (optional)
+
+pattern="${1:-.}"
+api_version="2023-03-15-preview"
+
+list() {
+  assignment="$1"
+  host="$2"
+  key="$3"
+
+  if [ -z "$host" ] || [ -z "$key" ]; then
+    printf 'unconfigured endpoint\n  current assignment: %s\n' "$assignment"
+    return
+  fi
+
+  # The Anthropic resource is set as a bare name, the OpenAI one as a hostname.
+  case "$host" in
+    *.*) ;;
+    *) host="$host.services.ai.azure.com" ;;
+  esac
+
+  body=$(mktemp)
+  code=$(curl -s --max-time 10 -o "$body" -w '%{http_code}' \
+    "https://$host/openai/deployments?api-version=$api_version" \
+    -H "api-key: $key")
+
+  if [ "$code" = "200" ]; then
+    printf '%s\n  current assignment: %s\n' "$host" "$assignment"
+    jq -r '.data[].id' "$body" | grep -i -- "$pattern" | sort | sed 's/^/  /'
+  else
+    printf '%s\n  current assignment: %s\n  HTTP %s\n' "$host" "$assignment" "$code"
+  fi
+
+  rm -f "$body"
+}
+
+list "Codex" "$AZURE_OPENAI_FOUNDRY_RESOURCE" "$AZURE_OPENAI_API_KEY"
+echo
+list "Claude Code" "$ANTHROPIC_FOUNDRY_RESOURCE" "$ANTHROPIC_FOUNDRY_API_KEY"

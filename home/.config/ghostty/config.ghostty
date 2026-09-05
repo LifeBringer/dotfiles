@@ -1,0 +1,14 @@
+# Match the WezTerm appearance and typography.
+theme = Rose Pine Moon
+font-family = Hack Nerd Font
+font-size = 13
+background-opacity = 0.75
+background-blur = 3
+
+# Match WezTerm's RESIZE-only decorations. Ghostty disables native tabs when
+# the titlebar is hidden, so use splits or separate windows instead.
+macos-titlebar-style = hidden
+
+# Ghostty has no window-level equivalent to WezTerm's focus callback. This is
+# the closest native behavior and uses the same foreground brightness factor.
+unfocused-split-opacity = 0.45
