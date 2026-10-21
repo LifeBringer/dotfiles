@@ -40,6 +40,7 @@ in
       cmd_duration.format = "[$duration]($style) ";
     };
   };
+  home.sessionPath = [ "$HOME/go/bin" ];  # `go install` binaries such as bootdev
 
   programs.zsh = {
     enable = true;
