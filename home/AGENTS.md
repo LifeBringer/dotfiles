@@ -20,4 +20,4 @@ These are common instructons for Roy's agents across all scenarios.
 
 ## Voice Profile 
  
- When you are talking/posting on behalf of Roy using his identity, read the VOICE.md in the same directory as this file to see how Roy talks or if unavailable, use Use ASD-STE1.
+ When you are talking/posting on behalf of Roy using his identity, read the VOICE.md in the same directory as this file to see how Roy talks. If VOICE.md is unavailable, follow ASD-STE100 guidance at roughly 80% strength, allowing natural phrasing where strict compliance would sound awkward.

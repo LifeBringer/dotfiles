@@ -19,9 +19,16 @@
     # Not packaged in nixpkgs; upstream ships its own flake.
     treehouse.url = "github:kunchenguid/treehouse";
     treehouse.inputs.nixpkgs.follows = "nixpkgs";
+
+    # pi releases about weekly and nixpkgs lags by weeks, so take upstream's
+    # prebuilt macOS binary straight from the newest GitHub release. rebuild.sh
+    # re-locks this input every run, so a rebuild always installs the current
+    # release; between runs the lock pins the tarball hash.
+    pi-bin.url = "https://github.com/earendil-works/pi/releases/latest/download/pi-darwin-arm64.tar.gz";
+    pi-bin.flake = false;
   };
 
-  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, nixpkgs-unstable, treehouse }:
+  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, nixpkgs-unstable, treehouse, pi-bin }:
     let
       # The one username line to change if this isn't your machine.
       # bootstrap.sh offers to rewrite this if your macOS username differs.
@@ -29,7 +36,7 @@
     in
     {
       darwinConfigurations."archlinux" = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit user nixpkgs-unstable; };
+        specialArgs = { inherit user nixpkgs-unstable pi-bin; };
         modules = [
           ./configuration.nix
           nix-homebrew.darwinModules.nix-homebrew

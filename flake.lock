@@ -109,6 +109,19 @@
         "type": "github"
       }
     },
+    "pi-bin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792621832,
+        "narHash": "sha256-ywUpoFvTKfI35yuhOHi1NNpZKl8XfOSd7gkIoJHvcHE=",
+        "type": "tarball",
+        "url": "https://github.com/earendil-works/pi/releases/latest/download/pi-darwin-arm64.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/earendil-works/pi/releases/latest/download/pi-darwin-arm64.tar.gz"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -116,6 +129,7 @@
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "pi-bin": "pi-bin",
         "treehouse": "treehouse"
       }
     },

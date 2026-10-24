@@ -8,6 +8,7 @@ in
   home.username = user;
   home.homeDirectory = "/Users/${user}";
   home.stateVersion = "24.11";
+  manual.manpages.enable = false;
   home.packages = with pkgs; [
     # cli i use constantly
     ripgrep   # fast search
@@ -16,13 +17,30 @@ in
     jq        # json on the command line
     lazygit
     neovim
+    tree-sitter  # nvim-treesitter (main) needs the CLI to build parsers; LazyVim would otherwise pull it via mason
+    # LazyVim health checks and extras
+    lua5_1                  # lazy.nvim builds rockspec plugins against Lua 5.1
+    lua51Packages.luarocks  # the luarocks that matches it
+    imagemagick             # snacks.image: `magick` and `convert` for inline images
+    ghostscript             # snacks.image: `gs` for PDF rendering
+    go                      # lang.go extra installs gopls, gofumpt, goimports with `go install`
+    nixfmt                  # lang.nix extra formats with nixfmt via conform but does not install it
+    nil                     # nix language server; mason would build it with cargo, which is not installed
     yt-dlp    # video downloader
+    cloudflared  # Cloudflare Tunnel; wrangler is an Automic Vault Isotope in configuration.nix
+    # pi.dev coding agent. Provider wiring lives in home/.pi/agent/extensions/foundry.ts.
+    pi-coding-agent
+    acpx      # headless Agent Client Protocol client, the model layer under backpass
+    backpass  # proposes AGENTS.md / CLAUDE.md edits from past agent sessions
+    muse      # Meta Muse Code; installs its writable runtime on first launch
+    nodejs    # pi shells out to npm for the settings.json "packages"; brew's node is only a transitive dep of mermaid-cli
   ] ++ [
     # From the treehouse flake input, not nixpkgs: a pool of reusable git
     # worktrees so each agent session gets its own isolated checkout.
     treehouse.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
   fonts.fontconfig.enable = true;
+  home.sessionPath = [ "$HOME/go/bin" ];  # `go install` binaries such as bootdev
   home.sessionVariables.EDITOR = "nvim";
   home.sessionVariables.CLAUDE_CODE_USE_FOUNDRY = "1";
   home.sessionVariables.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
@@ -40,7 +58,6 @@ in
       cmd_duration.format = "[$duration]($style) ";
     };
   };
-  home.sessionPath = [ "$HOME/go/bin" ];  # `go install` binaries such as bootdev
 
   programs.zsh = {
     enable = true;
@@ -108,17 +125,17 @@ in
   home.file.".config/opencode/AGENTS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
 
-# Keep Pi's credential and runtime state local by linking only authored files and directories.
+  # Keep pi's credential and runtime state local by linking only authored files
+  # and directories. Foundry provider wiring is an extension, not models.json,
+  # because pi cannot read the hostname from the environment in models.json.
   home.file.".pi/agent/themes".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/themes";
   home.file.".pi/agent/extensions".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/extensions";
-  home.file.".pi/agent/models.json".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/models.json";
   home.file.".pi/agent/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/settings.json";
 
-# AGENTS.md tells agents to read the OPINIONS.md next to it, so the file has
+  # AGENTS.md tells agents to read the OPINIONS.md next to it, so the file has
   # to sit beside every copy.
   home.file.".claude/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
