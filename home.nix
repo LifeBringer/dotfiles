@@ -28,6 +28,9 @@ in
     nil                     # nix language server; mason would build it with cargo, which is not installed
     yt-dlp    # video downloader
     cloudflared  # Cloudflare Tunnel; wrangler is an Automic Vault Isotope in configuration.nix
+    pip-audit    # audit Python dependencies for known vulnerabilities
+    duckdb       # duckdb command line
+    python-tools # python with websockets, duckdb, python-pptx, pypdf, nbformat, reportlab, pillow; not `python3`, which stays /usr/bin/python3
     # pi.dev coding agent. Provider wiring lives in home/.pi/agent/extensions/foundry.ts.
     pi-coding-agent
     acpx      # headless Agent Client Protocol client, the model layer under backpass
