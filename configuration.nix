@@ -24,6 +24,43 @@
       # cloudflared ships monthly against an edge that keeps changing, and the
       # release branch stays on the version it branched with.
       cloudflared = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.cloudflared;
+      # Tools agents used to download on demand with `uvx`, now installed so
+      # they run without a fetch.
+      # pip-audit tracks the advisory databases. nixpkgs' copy dies on import:
+      # pip-api runs `python -m pip` on sys.executable, a bare interpreter
+      # without pip because the package injects its dependencies in-process.
+      # Point it at a Python that has pip.
+      pip-audit =
+        let
+          unstable = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system};
+          pipPython = unstable.python3.withPackages (ps: [ ps.pip ]);
+        in
+        unstable.pip-audit.overridePythonAttrs (old: {
+          makeWrapperArgs = (old.makeWrapperArgs or [ ]) ++ [
+            "--set" "PIPAPI_PYTHON_LOCATION" "${pipPython}/bin/python3"
+          ];
+        });
+      # duckdb adds features every few weeks.
+      duckdb = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.duckdb;
+      # The libraries agents kept pulling in with `uv run --with`, in one
+      # Python. It is exposed as `python-tools` rather than `python3` so it
+      # does not shadow the `python3` that is already first on PATH.
+      python-tools =
+        let
+          unstable = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system};
+          env = unstable.python3.withPackages (ps: with ps; [
+            websockets
+            duckdb
+            python-pptx
+            pypdf
+            nbformat
+            reportlab
+            pillow
+          ]);
+        in
+        final.writeShellScriptBin "python-tools" ''
+          exec ${env}/bin/python3 "$@"
+        '';
       # pi: even nixpkgs-unstable trails the newest release and its model
       # catalog, so it is built from upstream's release tarball (flake input).
       pi-coding-agent = final.callPackage ./pkgs/pi-coding-agent.nix { src = pi-bin; };
