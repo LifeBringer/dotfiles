@@ -76,6 +76,9 @@
   security.sudo.extraConfig = ''
     Defaults secure_path="/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
   '';
+  # Touch ID for sudo. nix-darwin owns /etc/pam.d/sudo_local, so a
+  # hand-written one aborts activation.
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   system.primaryUser = "rona";
   users.users.${user} = {
@@ -112,10 +115,15 @@
       "anomalyco/tap"  # OpenCode
     ];
     brews = [
-      "gh"
-      # Only a launcher. After installing or upgrading it, run
-      # `av harden wrangler` to install the signed runtime in /opt/av/wrangler.
-      "automic-vault/isotopes/wrangler-isotope"
+      # GitHub CLI and kubectl, Isotope builds. gh-cli conflicts with core gh.
+      "automic-vault/isotopes/gh-cli"
+      "automic-vault/isotopes/kubectl-isotope"
+      # Upstream Wrangler, signed in with `wrangler login --use-keyring`.
+      "cloudflare-wrangler"
+      # Container runtime for the docker CLI.
+      "colima"
+      "docker"
+      "docker-compose"
       # OpenCode v2 ships several releases a week and nixpkgs trails it, so
       # take upstream's own tap. `opencode upgrade` updates it through brew.
       "anomalyco/tap/opencode-v2"
