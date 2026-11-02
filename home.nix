@@ -27,7 +27,7 @@ in
     nixfmt                  # lang.nix extra formats with nixfmt via conform but does not install it
     nil                     # nix language server; mason would build it with cargo, which is not installed
     yt-dlp    # video downloader
-    cloudflared  # Cloudflare Tunnel; wrangler is an Automic Vault Isotope in configuration.nix
+    cloudflared  # Cloudflare Tunnel; wrangler is a Homebrew formula in configuration.nix
     pip-audit    # audit Python dependencies for known vulnerabilities
     duckdb       # duckdb command line
     python-tools # python with websockets, duckdb, python-pptx, pypdf, nbformat, reportlab, pillow; not `python3`, which stays /usr/bin/python3
