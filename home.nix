@@ -17,14 +17,12 @@ in
     jq        # json on the command line
     lazygit
     neovim
-    tree-sitter  # nvim-treesitter (main) needs the CLI to build parsers; LazyVim would otherwise pull it via mason
-    # LazyVim health checks and extras
-    lua5_1                  # lazy.nvim builds rockspec plugins against Lua 5.1
-    lua51Packages.luarocks  # the luarocks that matches it
+    tree-sitter  # nvim-treesitter (main) needs the CLI to build parsers; keeps mason from installing its own copy
+    # Neovim tooling not managed by mason (see home/.config/nvim/lua/roy/plugins/lsp.lua)
     imagemagick             # snacks.image: `magick` and `convert` for inline images
     ghostscript             # snacks.image: `gs` for PDF rendering
-    go                      # lang.go extra installs gopls, gofumpt, goimports with `go install`
-    nixfmt                  # lang.nix extra formats with nixfmt via conform but does not install it
+    go                      # mason installs gopls, gofumpt, goimports with `go install`
+    nixfmt                  # conform formats nix with nixfmt
     nil                     # nix language server; mason would build it with cargo, which is not installed
     yt-dlp    # video downloader
     cloudflared  # Cloudflare Tunnel; wrangler is a Homebrew formula in configuration.nix
