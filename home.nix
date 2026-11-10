@@ -1,4 +1,4 @@
-{ config, pkgs, user, treehouse, ... }:
+{ config, lib, pkgs, user, treehouse, ... }:
 
 let
   dotfiles = "${config.home.homeDirectory}/.dotfiles";
@@ -43,12 +43,20 @@ in
     treehouse.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
   fonts.fontconfig.enable = true;
-  home.sessionPath = [ "$HOME/go/bin" ];  # `go install` binaries such as bootdev
-  home.sessionVariables.EDITOR = "nvim";
-  home.sessionVariables.CLAUDE_CODE_USE_FOUNDRY = "1";
-  home.sessionVariables.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
-  home.sessionVariables.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
-  home.sessionVariables.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  home.sessionPath = [
+    "$HOME/go/bin"                # `go install` binaries such as bootdev
+    "$HOME/.local/share/axi/bin"  # gh-axi, chrome-devtools-axi, lavish-axi; rebuild.sh installs them at @latest
+  ];
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  } // lib.optionalAttrs (user == "rona") {
+    # Foundry only on the personal machine; other machines (e.g. a work Mac
+    # with an org-managed Claude login) keep Claude Code's default provider.
+    CLAUDE_CODE_USE_FOUNDRY = "1";
+    ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
+    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
+    ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
+  };
   programs.starship = {
     enable = true;
     settings = {
@@ -138,12 +146,25 @@ in
   home.file.".pi/agent/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/settings.json";
 
-  # AGENTS.md tells agents to read the OPINIONS.md next to it, so the file has
-  # to sit beside every copy.
+  # AGENTS.md tells agents to read the OPINIONS.md and VOICE.md next to it, and
+  # VOICE.md points at its companion STYLE.md, so each file has to sit beside
+  # every copy.
   home.file.".claude/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
   home.file.".codex/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
   home.file.".config/opencode/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
+  home.file.".claude/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".codex/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".config/opencode/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".claude/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
+  home.file.".codex/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
+  home.file.".config/opencode/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
 }
