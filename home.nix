@@ -44,6 +44,7 @@ in
   home.sessionPath = [
     "$HOME/go/bin"                # `go install` binaries such as bootdev
     "$HOME/.local/share/axi/bin"  # gh-axi, chrome-devtools-axi, lavish-axi; rebuild.sh installs them at @latest
+    "$HOME/.bun/bin"              # `bun add -g` binaries
   ];
   home.sessionVariables = {
     EDITOR = "nvim";
