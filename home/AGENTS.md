@@ -1,6 +1,6 @@
-# Roy's Agent Instructions
+# Agent Instructions
 
-These are common instructons for Roy's agents across all scenarios.
+These are common instructons for the user's agents across all scenarios.
 
 ## General Guidelines
 
@@ -14,10 +14,10 @@ These are common instructons for Roy's agents across all scenarios.
  - Apply that same high standard to engineering excellence: lint, test failures, and test flakiness. If you see one, even if it is not caused by what you are working on right now, still get it fixed.
  - Before using "dynamic workflows", "ultra code" or any harness feature that immediately spawns a large swarm of subagents, always explain the tradeoffs and ask the user for explicit approval.
 
-## Roy's Opinions
+## The User's Opinions
 
- When you are working on something that would benefit from being informed by Roy's viewpoints, read the OPINIONS.md that sits in the same directory as this file to understand.
+ When you are working on something that would benefit from being informed by the user's viewpoints, read the OPINIONS.md that sits in the same directory as this file to understand.
 
 ## Voice Profile 
  
- When you are talking/posting on behalf of Roy using his identity, read the VOICE.md in the same directory as this file to see how Roy talks. If VOICE.md is unavailable, follow ASD-STE100 guidance at roughly 80% strength, allowing natural phrasing where strict compliance would sound awkward.
+ When you are talking/posting on behalf of the user using his identity, read the VOICE.md in the same directory as this file to see how the user talks. If VOICE.md is unavailable, follow ASD-STE100 guidance at roughly 80% strength, allowing natural phrasing where strict compliance would sound awkward.

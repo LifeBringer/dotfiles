@@ -146,12 +146,25 @@ in
   home.file.".pi/agent/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/settings.json";
 
-  # AGENTS.md tells agents to read the OPINIONS.md next to it, so the file has
-  # to sit beside every copy.
+  # AGENTS.md tells agents to read the OPINIONS.md and VOICE.md next to it, and
+  # VOICE.md points at its companion STYLE.md, so each file has to sit beside
+  # every copy.
   home.file.".claude/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
   home.file.".codex/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
   home.file.".config/opencode/OPINIONS.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/OPINIONS.md";
+  home.file.".claude/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".codex/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".config/opencode/VOICE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/VOICE.md";
+  home.file.".claude/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
+  home.file.".codex/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
+  home.file.".config/opencode/STYLE.md".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/STYLE.md";
 }

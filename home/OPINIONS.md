@@ -25,7 +25,7 @@
   change course. Execute fast, experiment, and do not wait for perfect
   data.
 
-  ### Roy's 4-Answer Constraint
+  ### The User's 4-Answer Constraint
 
   When evaluating status reports or operational data, the agent must output
   exactly one of these four structures:
