@@ -136,6 +136,9 @@
       "mermaid-cli"
       "ffmpeg"
       "uv"
+      # Bun ships a release every week or two; the nixpkgs release branch
+      # stays a minor version behind.
+      "bun"
     ];
     casks = [
       # The app behind `av open` and Automic Vault's approval windows; the

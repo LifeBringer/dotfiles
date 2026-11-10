@@ -17,14 +17,12 @@ in
     jq        # json on the command line
     lazygit
     neovim
-    tree-sitter  # nvim-treesitter (main) needs the CLI to build parsers; LazyVim would otherwise pull it via mason
-    # LazyVim health checks and extras
-    lua5_1                  # lazy.nvim builds rockspec plugins against Lua 5.1
-    lua51Packages.luarocks  # the luarocks that matches it
+    tree-sitter  # nvim-treesitter (main) needs the CLI to build parsers; keeps mason from installing its own copy
+    # Neovim tooling not managed by mason (see home/.config/nvim/lua/roy/plugins/lsp.lua)
     imagemagick             # snacks.image: `magick` and `convert` for inline images
     ghostscript             # snacks.image: `gs` for PDF rendering
-    go                      # lang.go extra installs gopls, gofumpt, goimports with `go install`
-    nixfmt                  # lang.nix extra formats with nixfmt via conform but does not install it
+    go                      # mason installs gopls, gofumpt, goimports with `go install`
+    nixfmt                  # conform formats nix with nixfmt
     nil                     # nix language server; mason would build it with cargo, which is not installed
     yt-dlp    # video downloader
     cloudflared  # Cloudflare Tunnel; wrangler is a Homebrew formula in configuration.nix
@@ -46,16 +44,16 @@ in
   home.sessionPath = [
     "$HOME/go/bin"                # `go install` binaries such as bootdev
     "$HOME/.local/share/axi/bin"  # gh-axi, chrome-devtools-axi, lavish-axi; rebuild.sh installs them at @latest
+    "$HOME/.bun/bin"              # `bun add -g` binaries
   ];
   home.sessionVariables = {
     EDITOR = "nvim";
   } // lib.optionalAttrs (user == "rona") {
     # Foundry only on the personal machine; other machines (e.g. a work Mac
     # with an org-managed Claude login) keep Claude Code's default provider.
+    # Which Foundry deployment each Claude Code tier uses is pinned in the `env`
+    # block of home/.claude/settings.json, next to the other model settings.
     CLAUDE_CODE_USE_FOUNDRY = "1";
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
   };
   programs.starship = {
     enable = true;

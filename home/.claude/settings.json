@@ -1,4 +1,18 @@
 {
+  "env": {
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL_NAME": "Fable",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL_DESCRIPTION": "Fable 5.1 · Most capable for your hardest and longest-running tasks",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "Opus",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_DESCRIPTION": "Opus 5.5 · Best for everyday, complex tasks",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "Sonnet",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_DESCRIPTION": "Sonnet 5.5 · Efficient for routine tasks",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-4-5",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME": "Haiku",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL_DESCRIPTION": "Haiku 4.5 · Fastest for quick answers"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -82,7 +96,7 @@
       "effortLevel": "xhigh"
     },
     "claude-opus-5-5": {
-      "effortLevel": "xhigh"
+      "effortLevel": "medium"
     },
     "claude-sonnet-5": {
       "effortLevel": "xhigh"

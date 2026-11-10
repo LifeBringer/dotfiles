@@ -19,7 +19,7 @@
     "npm:pi-codex-fast-mode",
     "../../.local/share/pi-extensions/pi-openai-server-compaction"
   ],
-  "lastChangelogVersion": "1.0.2",
+  "lastChangelogVersion": "1.4.0",
   "retry": {
     "enabled": true,
     "maxRetries": 8,
