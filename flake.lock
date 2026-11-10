@@ -17,6 +17,54 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "headless",
+          "nixpkgs-nixos"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792526520,
+        "narHash": "sha256-3hSJlv8mUVnZPMWK2+CM7a9O+nR6Z4mCh27NfLCmTPc=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "cedd626e11b635470fa6f9fdb8ad79b0075dd7f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
+    "headless": {
+      "inputs": {
+        "disko": "disko",
+        "nix-darwin": [
+          "nix-darwin"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-nixos": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794102620,
+        "narHash": "sha256-j46HboQ4/f+XTzSa5MjPmM/jdqlOR6oXxkgewTG2axw=",
+        "owner": "kunchenguid",
+        "repo": "headless",
+        "rev": "fe1a381c6f382ec3c9822da0e706484414bc63e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kunchenguid",
+        "repo": "headless",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -124,6 +172,7 @@
     },
     "root": {
       "inputs": {
+        "headless": "headless",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",

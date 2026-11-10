@@ -26,9 +26,18 @@
     # release; between runs the lock pins the tarball hash.
     pi-bin.url = "https://github.com/earendil-works/pi/releases/latest/download/pi-darwin-arm64.tar.gz";
     pi-bin.flake = false;
+
+    # The headless layer (key-only SSH, never sleep, ...) for the Mac that
+    # runs unattended; only the leenaai configuration imports it. Its NixOS
+    # inputs are never evaluated here, so they follow nixpkgs to keep the
+    # lock to one nixpkgs.
+    headless.url = "github:kunchenguid/headless";
+    headless.inputs.nixpkgs.follows = "nixpkgs";
+    headless.inputs.nix-darwin.follows = "nix-darwin";
+    headless.inputs.nixpkgs-nixos.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, nixpkgs-unstable, treehouse, pi-bin }:
+  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, nixpkgs-unstable, treehouse, pi-bin, headless }:
     let
       # The macOS user to configure, taken from whoever runs the rebuild.
       # darwin-rebuild runs under sudo, where USER is root, so prefer
@@ -40,9 +49,8 @@
         if sudoUser != "" then sudoUser
         else if envUser != "" && envUser != "root" then envUser
         else "rona";
-    in
-    {
-      darwinConfigurations."archlinux" = nix-darwin.lib.darwinSystem {
+
+      mkDarwin = extraModules: nix-darwin.lib.darwinSystem {
         specialArgs = { inherit user nixpkgs-unstable pi-bin; };
         modules = [
           ./configuration.nix
@@ -55,7 +63,15 @@
             home-manager.extraSpecialArgs = { inherit user treehouse; };
             home-manager.users.${user} = import ./home.nix;
           }
-        ];
+        ] ++ extraModules;
       };
+    in
+    {
+      darwinConfigurations."archlinux" = mkDarwin [ ];
+      # The same setup, run headless. rebuild.sh picks it on that Mac.
+      darwinConfigurations."leenaai" = mkDarwin [
+        headless.darwinModules.headless
+        ./hosts/leenaai.nix
+      ];
     };
 }

@@ -26,4 +26,10 @@ if [[ -n "$NPM_BIN" ]]; then
 else
   echo "warning: npm not found; skipping the axi CLI install" >&2
 fi
-exec sudo -H "$DARWIN_REBUILD" switch --impure --flake "$DIR#archlinux"
+# The headless work Mac takes its own configuration; every other Mac takes
+# the shared one.
+case "$(scutil --get LocalHostName)" in
+  LeenaAi*) HOST=leenaai ;;
+  *) HOST=archlinux ;;
+esac
+exec sudo -H "$DARWIN_REBUILD" switch --impure --flake "$DIR#$HOST"

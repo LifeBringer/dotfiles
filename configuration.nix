@@ -138,6 +138,9 @@
       "uv"
     ];
     casks = [
+      # The app behind `av open` and Automic Vault's approval windows; the
+      # `av` CLI itself is installed separately.
+      "automic-vault/isotopes/automic-vault"
       "wezterm"
       "ghostty"
       "claude-code@latest"
@@ -145,6 +148,8 @@
       "basictex"
       "typora"
       "libreoffice"
+      # chrome-devtools-axi (rebuild.sh) drives Chrome.
+      "google-chrome"
     ];
   };
 }
