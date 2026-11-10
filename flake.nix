@@ -30,9 +30,16 @@
 
   outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, nixpkgs-unstable, treehouse, pi-bin }:
     let
-      # The one username line to change if this isn't your machine.
-      # bootstrap.sh offers to rewrite this if your macOS username differs.
-      user = "rona";
+      # The macOS user to configure, taken from whoever runs the rebuild.
+      # darwin-rebuild runs under sudo, where USER is root, so prefer
+      # SUDO_USER. Reading the environment needs --impure (rebuild.sh passes
+      # it); a pure evaluation falls back to "rona".
+      sudoUser = builtins.getEnv "SUDO_USER";
+      envUser = builtins.getEnv "USER";
+      user =
+        if sudoUser != "" then sudoUser
+        else if envUser != "" && envUser != "root" then envUser
+        else "rona";
     in
     {
       darwinConfigurations."archlinux" = nix-darwin.lib.darwinSystem {

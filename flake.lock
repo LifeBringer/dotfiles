@@ -112,8 +112,8 @@
     "pi-bin": {
       "flake": false,
       "locked": {
-        "lastModified": 1792621832,
-        "narHash": "sha256-ywUpoFvTKfI35yuhOHi1NNpZKl8XfOSd7gkIoJHvcHE=",
+        "lastModified": 1794312155,
+        "narHash": "sha256-AqJLKAgcO+RatgWKFQuT1kdBtq2rvysgQDgqAOFShVo=",
         "type": "tarball",
         "url": "https://github.com/earendil-works/pi/releases/latest/download/pi-darwin-arm64.tar.gz"
       },

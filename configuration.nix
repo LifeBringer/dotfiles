@@ -80,7 +80,7 @@
   # hand-written one aborts activation.
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  system.primaryUser = "rona";
+  system.primaryUser = user;
   users.users.${user} = {
     home = "/Users/${user}";
   };
@@ -124,6 +124,8 @@
       "colima"
       "docker"
       "docker-compose"
+      "git"
+      "tailscale"
       # OpenCode v2 ships several releases a week and nixpkgs trails it, so
       # take upstream's own tap. `opencode upgrade` updates it through brew.
       "anomalyco/tap/opencode-v2"
@@ -142,7 +144,6 @@
       "opensuperwhisper"
       "basictex"
       "typora"
-      "uvtools"
       "libreoffice"
     ];
   };
