@@ -51,10 +51,9 @@ in
   } // lib.optionalAttrs (user == "rona") {
     # Foundry only on the personal machine; other machines (e.g. a work Mac
     # with an org-managed Claude login) keep Claude Code's default provider.
+    # Which Foundry deployment each Claude Code tier uses is pinned in the `env`
+    # block of home/.claude/settings.json, next to the other model settings.
     CLAUDE_CODE_USE_FOUNDRY = "1";
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-5";
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-5";
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5";
   };
   programs.starship = {
     enable = true;
